@@ -1,0 +1,61 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/forms.css">
+<link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body>
+  <%- include('../includes/navigation.ejs') %>
+
+  <main>
+    <form class="login-form" action="/signup" method="POST">
+      <div class="form-control">
+        <label for="name">Full Name</label>
+        <input type="text" name="name" id="name">
+      </div>
+      <div class="form-control">
+        <label for="email">Email address</label>
+        <input type="email" name="email" id="email">
+        <div class="email error" style="color: red;"></div>
+      </div>
+      <div class="form-control">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password">
+      </div>
+
+      <button class="btn" type="submit">Signup</button>
+    </form>
+  </main>
+</body>
+
+<script>
+  const form = document.querySelector('form');
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const name = form.querySelector('#name').value;
+    const email = form.querySelector('#email').value;
+    const password = form.querySelector('#password').value;
+    const emailError = document.querySelector('.email.error');
+
+    fetch('/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password
+      })
+    }).then((response) => {
+      if (response.ok) {
+        window.location = '/login';
+      } else {
+        response.json().then((data) => {
+          emailError.textContent = data.message;
+        });
+      }
+    });
+  });
+</script>
+
+  <%- include('../includes/end.ejs') %>

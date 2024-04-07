@@ -1,0 +1,14 @@
+<%- include('includes/head.ejs') %>
+
+</head>
+
+<body>
+  <%- include('includes/navigation.ejs') %>
+  <section class="centered">
+    <h1>500</h1>
+    <h2>Something went wrong :(</h2>
+    <p><%= message %></p>
+    <a class="<%= path === '/' ? 'active' : '' %>" href="/">Home</a>
+</section>
+
+  <%- include('includes/end.ejs') %>
