@@ -15,7 +15,7 @@
       <div class="form-control">
         <label for="password">Password</label>
         <input type="password" name="password" id="password">
-        <div class="email error" style="color: red;"></div>
+        <div class="error" style="color: red; margin-top: 10px;"></div>
       </div>
       <button class="btn" type="submit">Login</button>
     </form>
@@ -27,7 +27,7 @@
       event.preventDefault();
       const email = form.querySelector('#email').value;
       const password = form.querySelector('#password').value;
-      const invalidCredentials = document.querySelector('.email.error');
+      const error = document.querySelector('.error');
   
       await fetch('/login', {
         method: 'POST',
@@ -44,7 +44,7 @@
           location.assign('/');
         } else {
           response.json().then((data) => {
-            invalidCredentials.textContent = data.message;
+            error.textContent = data.message;
           });
         }
       });
