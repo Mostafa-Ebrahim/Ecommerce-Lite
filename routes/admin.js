@@ -2,16 +2,26 @@ const express = require("express");
 
 const adminController = require("../controllers/admin");
 const { checkAdmin } = require("../middlewares/authentication");
+const validator = require("../validators/admin.validator");
 
 const router = express.Router();
 
 router.get("/add-product", checkAdmin, adminController.getAddProduct);
 
-router.post("/add-product", checkAdmin, adminController.addProduct);
+router.post(
+  "/add-product",
+  checkAdmin,
+  validator.addProduct,
+  adminController.addProduct
+);
 
 router.get("/products", checkAdmin, adminController.getProducts);
 
-router.get("/edit-product/:productId", checkAdmin, adminController.getEditProduct);
+router.get(
+  "/edit-product/:productId",
+  checkAdmin,
+  adminController.getEditProduct
+);
 
 router.post("/edit-product", checkAdmin, adminController.editProduct);
 

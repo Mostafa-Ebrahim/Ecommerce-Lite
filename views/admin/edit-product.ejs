@@ -27,8 +27,42 @@
       <% if (editing) { %>
       <input type="hidden" value="<%= product.id %>" name="productId">
       <% } %>
-
+      <div class="error" style="color: red; margin-top: 10px; margin-bottom: 10px;"></div>
       <button class="btn" type="submit"><% if (editing) { %>Update Product<% } else { %>Add Product<% } %></button>
     </form>
   </main>
+
+  <script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async(event) => {
+      event.preventDefault();
+      const title = form.querySelector('#title').value;
+      const imgurl = form.querySelector('#imgurl').value;
+      const price = form.querySelector('#price').value;
+      const description = form.querySelector('#description').value;
+      const error = document.querySelector('.error');
+  
+      await fetch('/admin/add-product', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: title,
+          imgurl: imgurl,
+          price: price,
+          description: description
+        })
+      }).then((response) => {
+        if (response.ok) {
+          location.assign('/admin/products');
+        } else {
+          response.json().then((data) => {
+            error.textContent = data.message;
+          });
+        }
+      });
+    });
+  </script>
+
   <%- include('../includes/end.ejs') %>
